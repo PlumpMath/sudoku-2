@@ -52,6 +52,32 @@
    (all-true? get-columns puzzle)
    (all-true? get-sectors puzzle)))
 
+(defn get-indexes-of-blanks
+  [puzzle]
+  (map first 
+       (filter 
+        #(= :_ (second %)) 
+	   (map-indexed vector puzzle))))
+
+(defn possible-solutions
+  "Takes an unsolved puzzle and returns all possible solutions"
+  [puzzle]
+  (for [index (get-indexes-of-blanks puzzle)
+        candidate (range 1 (+ 1 (get-width puzzle)))]
+    (assoc puzzle index candidate)))
+
 (defn solve 
   "Takes an unsolved puzzle and returns a solved one"
-  [])
+  [puzzle]
+  (doseq [solution (filter is-solved? (possible-solutions puzzle))]
+    solution))
+
+(def unsolved [ 1  2  3  4
+                4  3  2  1
+                2  1  4  3
+                3  4  1 :_])
+
+
+
+
+
