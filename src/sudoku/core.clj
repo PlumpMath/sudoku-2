@@ -59,6 +59,13 @@
         #(= :_ (second %)) 
 	   (map-indexed vector puzzle))))
 
+(defn all-combinations [depth options]
+  ((fn f [nr array]
+    (if (< (count array) depth)
+      (doseq [x options]
+        (f x (cons x array)))
+      (println array))) nil []))
+
 (defn possible-solutions
   "Takes an unsolved puzzle and returns all possible solutions"
   [puzzle]
