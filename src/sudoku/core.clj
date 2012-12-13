@@ -40,17 +40,14 @@
   (= (count (set row))
      (count row)))
 
-(defn all-true?
-  [f puzzle]
-  (reduce #(and %1 %2) (map all-unique? (f puzzle))))
-
 (defn is-solved?
   "Takes a solved puzzle and returns true if the puzzle is solved"
   [puzzle]
-  (and
-   (all-true? get-rows puzzle)
-   (all-true? get-columns puzzle)
-   (all-true? get-sectors puzzle)))
+  (every? true? 
+          (map all-unique? 
+               (concat (get-rows puzzle)
+                       (get-columns puzzle)
+                       (get-sectors puzzle)))))
 
 (defn get-indexes-of-blanks
   [puzzle]
