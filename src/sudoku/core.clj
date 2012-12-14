@@ -54,32 +54,41 @@
   (map first 
        (filter 
         #(= :_ (second %)) 
-	   (map-indexed vector puzzle))))
+        (map-indexed vector puzzle))))
 
-(defn all-combinations [depth options]
-  ((fn f [nr array]
-    (if (< (count array) depth)
-      (doseq [x options]
-        (f x (cons x array)))
-      (println array))) nil []))
+(defn all-combinations [options length]
+  ((fn f [result options length]
+     (if (>= (count result) length)
+       result
+       (for [x options]
+         (f (conj result x) options length))))
+   [] options length))
+
+(defn guesses [nr-of-blanks options]
+  (partition nr-of-blanks (flatten (all-combinations options nr-of-blanks))))
 
 (defn possible-solutions
   "Takes an unsolved puzzle and returns all possible solutions"
   [puzzle]
-  (for [index (get-indexes-of-blanks puzzle)
-        candidate (range 1 (+ 1 (get-width puzzle)))]
-    (assoc puzzle index candidate)))
+  (let [options (range 1 (+ 1 (get-width puzzle)))
+        blanks (get-indexes-of-blanks puzzle)
+        guess-combinations (guesses (count blanks) options)]
+    (for [guess-vec guess-combinations]
+      (let [z (interleave blanks guess-vec)]
+        (apply assoc puzzle z)))))
 
 (defn solve 
   "Takes an unsolved puzzle and returns a solved one"
   [puzzle]
-  (doseq [solution (filter is-solved? (possible-solutions puzzle))]
+  (for [solution (filter is-solved? (possible-solutions-2 puzzle))]
     solution))
 
-(def unsolved [ 1  2  3  4
+(def unsolved [:_ :_  3  4
                 4  3  2  1
-                2  1  4  3
+                1  2  4 :_
                 3  4  1 :_])
+
+;(solved? unsolved)
 
 
 
