@@ -5,17 +5,17 @@
 
 (defn get-rows
   [puzzle]
-	(let [width (get-width puzzle)]
-	  (for [start (range 0 (* width width) width)]
-	    (for [i (range start (+ start width))]
-	    	(nth puzzle i)))))
+  (let [width (get-width puzzle)]
+    (for [start (range 0 (* width width) width)]
+      (for [i (range start (+ start width))]
+        (nth puzzle i)))))
 
 (defn get-columns
   [puzzle]
-	(let [width (get-width puzzle)]
-	  (for [start (range 0 width)]
-	    (for [i (range start (* width width) width)]
-	    	(nth puzzle i)))))
+  (let [width (get-width puzzle)]
+    (for [start (range 0 width)]
+      (for [i (range start (* width width) width)]
+        (nth puzzle i)))))
 
 (defn get-sector-indexes
   [puzzle]
@@ -25,10 +25,10 @@
           sector-y (range 0 sector-width)]
       (for [inside-x (range 0 sector-width)
             inside-y (range 0 sector-width)]
-	      (let [x (+ inside-x (* sector-x sector-width))
-                 y (+ inside-y (* sector-y sector-width))
-                 w puzzle-width]
-     	   (+ x (* y w)))))))
+        (let [x (+ inside-x (* sector-x sector-width))
+              y (+ inside-y (* sector-y sector-width))
+              w puzzle-width]
+          (+ x (* y w)))))))
 
 (defn get-sectors
   [puzzle]
@@ -84,9 +84,9 @@
     solution))
 
 (def unsolved [:_ :_  3  4
-                4  3  2  1
-                1  2  4 :_
-                3  4  1 :_])
+               4  3  2  1
+               1  2  4 :_
+               3  4  1 :_])
 
 ;(solved? unsolved)
 
