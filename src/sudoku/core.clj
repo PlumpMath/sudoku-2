@@ -80,8 +80,7 @@
 (defn solve 
   "Takes an unsolved puzzle and returns a solved one"
   [puzzle]
-  (for [solution (filter is-solved? (possible-solutions-2 puzzle))]
-    solution))
+  (filter is-solved? (possible-solutions puzzle))
 
 (def unsolved [:_ :_  3  4
                4  3  2  1
@@ -89,8 +88,3 @@
                3  4  1 :_])
 
 ;(solved? unsolved)
-
-
-
-
-
