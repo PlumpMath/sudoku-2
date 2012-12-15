@@ -37,3 +37,7 @@
 (deftest solving-test-4
   (testing ""
     (is (not (is-solved? puzzle4)))))
+
+(deftest solving-test-5
+  (testing "solve returns correct solution"
+    (is (= (first (solve unsolved)) [2 1 3 4 4 3 2 1 1 2 4 3 3 4 1 2]))))
