@@ -77,6 +77,33 @@
       (let [z (interleave blanks guess-vec)]
         (apply assoc puzzle z)))))
 
+;; Alternative version:
+(defn combination [nr nr-of-slots nr-of-options]
+  (loop [slot 0
+         n nr
+         result []]
+    (if (>= slot nr-of-slots)
+      result
+      (let [nr-to-put-in-slot (min n nr-of-options)]
+        (recur (inc slot)
+               (- n nr-to-put-in-slot)
+               (conj result nr-to-put-in-slot))))))
+
+(defn possible-solutions-using-combination-fn
+  "Takes an unsolved puzzle and returns all possible solutions"
+  [puzzle]
+  (let [options (range 1 (+ 1 (get-width puzzle)))
+        blanks (get-indexes-of-blanks puzzle)
+        blank-count (count blanks)
+        option-count (count options)
+        combo-count (Math/pow option-count blank-count)]
+    (println "combo-count: " combo-count)
+    (for [x (range combo-count)]
+      (let [z (interleave blanks (combination x blank-count option-count))]
+        (apply assoc puzzle z)))))
+
+
+
 (defn solve 
   "Takes an unsolved puzzle and returns a solved one"
   [puzzle]
